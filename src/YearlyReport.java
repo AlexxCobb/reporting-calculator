@@ -4,15 +4,14 @@ import java.util.HashMap;
 public class YearlyReport {
 
     FileReader fileReader = new FileReader();
+    int year = 2021;
 
-    int year = 2021; // идея быда спрашивать в консоли, за какой год загрузить отчет, но пока так.
-    String path = "y." + year +".csv"; // Вызов файла отсюда мне не нравится, но т.к. голова и так догло соображает, до лучших времен)
 
     ArrayList<Transaction> yearTransaction = new ArrayList<>();
     HashMap<String, Integer> profitForMonths = new HashMap<>();
 
 
-    ArrayList<Transaction> readYearReport() {
+    ArrayList<Transaction> readYearReport(String path) {
         ArrayList<String> yearLines = fileReader.readFileContents(path);
         for (int i = 1; i < yearLines.size(); i++) {
             String[] lineContents = yearLines.get(i).split(",");
@@ -26,17 +25,8 @@ public class YearlyReport {
         return yearTransaction;
     }
 
-    //boolean isReadYearReport = yearTransaction.isEmpty();
 
-//    void checkToReadYearReport () {
-//        if (yearTransaction.isEmpty()) {
-//            System.out.println("Ошибка 404. Пожалуйста, сначала считайте данные из отчета. Команда 2.");
-//            readYearReport();
-//        }
-//    }
-
-
-    Integer allYearIncome () {
+    Integer allYearIncome() {
 
         int sum = 0;
         for (Transaction transaction : yearTransaction) {
@@ -47,7 +37,7 @@ public class YearlyReport {
         return sum;
     }
 
-    Integer allYearExpense () {
+    Integer allYearExpense() {
 
         int sum = 0;
         for (Transaction transaction : yearTransaction) {
@@ -67,7 +57,7 @@ public class YearlyReport {
                 sum += transaction.amount;
             }
         }
-        return sum/count;
+        return sum / count;
     }
 
     Integer middleYearExpense() {
@@ -79,24 +69,24 @@ public class YearlyReport {
                 sum += transaction.amount;
             }
         }
-        return sum/count;
+        return sum / count;
     }
 
-    HashMap<String, Integer> profitToMonthOfYear () { // void
+    HashMap<String, Integer> profitToMonthOfYear() { // void
         int profit = 0;
         int expense = 0;
         int income = 0;
         String month = "";
         for (Transaction transaction : yearTransaction) {
-            if(transaction.month == 1) {
-                if (transaction.isExpense){
+            if (transaction.month == 1) {
+                if (transaction.isExpense) {
                     expense = transaction.amount;
                 } else {
                     income = transaction.amount;
                 }
                 profit = income - expense;
                 month = "Январь";
-                profitForMonths.put(month, profit);  // sout Вывести сразу значения конкретногог месяца и прибыли по нему...?!
+                profitForMonths.put(month, profit);
             } else if (transaction.month == 2) {
                 if (transaction.isExpense) {
                     expense = transaction.amount;
@@ -119,6 +109,7 @@ public class YearlyReport {
         }
         return profitForMonths;
     }
+
     void printProfitReport() {
         profitToMonthOfYear();
         for (String month : profitForMonths.keySet()) {
@@ -126,11 +117,5 @@ public class YearlyReport {
             System.out.println("Прибыль за " + month + " составила: " + value);
             System.out.println();
         }
-
     }
-
-
-
-
-
 }

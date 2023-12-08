@@ -10,7 +10,7 @@ public class Main {
         MonthlyReport monthlyReport = new MonthlyReport();
         YearlyReport yearlyReport = new YearlyReport();
 
-        MonthTotalPerYear monthTotalPerYear = new MonthTotalPerYear (monthlyReport, yearlyReport);
+        MonthTotalPerYear monthTotalPerYear = new MonthTotalPerYear(monthlyReport, yearlyReport);
 
         // Поехали!
         Scanner scanner = new Scanner(System.in);
@@ -21,19 +21,22 @@ public class Main {
             if (userInput == 1) {
                 monthlyReport.readMonthReport();
             } else if (userInput == 2) {
-                yearlyReport.readYearReport();
+                System.out.println("За какой год считать отчет?");
+                int year = scanner.nextInt();
+                String path = "y." + year + ".csv";
+                yearlyReport.readYearReport(path);
             } else if (userInput == 3) {
-                if(yearlyReport.yearTransaction.isEmpty()) {
+                if (yearlyReport.yearTransaction.isEmpty()) {
                     System.out.println("Ошибка 404. Пожалуйста, сначала считайте данные из отчета. Команда 2.");
                     continue;
                 }
-                if(monthlyReport.monthRep.isEmpty()) {
+                if (monthlyReport.monthRep.isEmpty()) {
                     System.out.println("Ошибка 404. Пожалуйста, сначала считайте данные из отчета. Команда 1.");
                     continue;
                 }
                 monthTotalPerYear.checkReports();
             } else if (userInput == 4) {
-                if(monthlyReport.monthRep.isEmpty()) {
+                if (monthlyReport.monthRep.isEmpty()) {
                     System.out.println("Ошибка 404. Пожалуйста, сначала считайте данные из отчета. Команда 1.");
                     continue;
                 }
@@ -44,17 +47,14 @@ public class Main {
                 monthlyReport.maxExpenseProductOfMonth("Февраль");
                 monthlyReport.maxExpenseProductOfMonth("Март");
             } else if (userInput == 5) {
-                if(yearlyReport.yearTransaction.isEmpty()) {
+                if (yearlyReport.yearTransaction.isEmpty()) {
                     System.out.println("Ошибка 404. Пожалуйста, сначала считайте данные из отчета. Команда 2.");
                     continue;
                 }
-                System.out.println("Рассматриваемый год: " + yearlyReport.year);
-                System.out.println();
+                System.out.println("Рассматриваемый год: " + yearlyReport.year + "\n");
                 yearlyReport.printProfitReport();
-                System.out.println("Средний расход: " + yearlyReport.middleYearExpense());
-                System.out.println();
-                System.out.println("Средний доход: " + yearlyReport.middleYearIncome());
-                System.out.println();
+                System.out.println("Средний расход: " + yearlyReport.middleYearExpense() + "\n");
+                System.out.println("Средний доход: " + yearlyReport.middleYearIncome() + "\n");
             } else if (userInput == 911) {
                 System.out.println("Всего хорошего!");
                 return;
@@ -72,9 +72,6 @@ public class Main {
         System.out.println("3 - Сверить отчёты.");
         System.out.println("4 - Вывести информацию обо всех месячных отчётах.");
         System.out.println("5 - Вывести информацию о годовом отчёте.");
-        System.out.println("911 - Завершить работу программы!");
-        System.out.println();
+        System.out.println("911 - Завершить работу программы! \n");
     }
-
-
 }

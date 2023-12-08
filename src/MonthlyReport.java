@@ -4,14 +4,14 @@ import java.util.HashMap;
 public class MonthlyReport {
 
     FileReader fileReader = new FileReader();
-    HashMap<String, ArrayList<Transaction>> monthRep = new HashMap<>();
+    HashMap<String, ArrayList<MonthTransaction>> monthRep = new HashMap<>();
 
 
-    HashMap<String, ArrayList<Transaction>> readMonthReport() {
+    HashMap<String, ArrayList<MonthTransaction>> readMonthReport() {
 
         for (int i = 1; i < 4; i++) {
             String monthName = "";
-            ArrayList<Transaction> monthTransaction = new ArrayList<>();
+            ArrayList<MonthTransaction> monthTransaction = new ArrayList<>();
             String monthReport = "m.20210" + i + ".csv";
             ArrayList<String> monthLines = fileReader.readFileContents(monthReport);
 
@@ -22,28 +22,34 @@ public class MonthlyReport {
                 int quantity = Integer.parseInt(lineContent[2]);
                 int unitPrice = Integer.parseInt(lineContent[3]);
 
-                Transaction transaction = new Transaction(itemName, isExpense, quantity, unitPrice);
+                MonthTransaction transaction = new MonthTransaction(itemName, isExpense, quantity, unitPrice);
                 monthTransaction.add(transaction);
             }
-            if (i == 1) {
-                monthName = "Январь";
-            } else if (i == 2) {
-                monthName = "Февраль";
-            } else {
-                monthName = "Март";
+            switch (i) {
+                case 1:
+                    monthName = "Январь";
+                    break;
+                case 2:
+                    monthName = "Февраль";
+                    break;
+                case 3:
+                    monthName = "Март";
+                    break;
+                default:
+                    monthName = null;
             }
-            monthRep.put (monthName, monthTransaction);
+            monthRep.put(monthName, monthTransaction);
         }
         return monthRep;
     }
 
 
-    void maxProfitProductOfMonth (String month) {
+    void maxProfitProductOfMonth(String month) {
         int maxProfit = 0;
         String maxProfitItem = null;
-        ArrayList<Transaction> stats = monthRep.get(month);
+        ArrayList<MonthTransaction> stats = monthRep.get(month);
         System.out.println("Статистика за " + month);
-        for (Transaction stat : stats) {
+        for (MonthTransaction stat : stats) {
             if (!stat.isExpense) {
                 int multi = stat.unitPrice * stat.quantity;
                 if (multi > maxProfit) {
@@ -52,17 +58,16 @@ public class MonthlyReport {
                 }
             }
         }
-        System.out.println("Самый прибыльный товар: " + maxProfitItem + " полученная сумма " + maxProfit);
-        System.out.println();
+        System.out.println("Самый прибыльный товар: " + maxProfitItem + " полученная сумма " + maxProfit + "\n");
     }
 
-    void maxExpenseProductOfMonth (String month) {
+    void maxExpenseProductOfMonth(String month) {
         int maxExpense = 0;
 
         String maxExpenseItem = null;
-        ArrayList<Transaction> stats = monthRep.get(month);
+        ArrayList<MonthTransaction> stats = monthRep.get(month);
         System.out.println("Статистика за " + month);
-        for (Transaction stat : stats) {
+        for (MonthTransaction stat : stats) {
             if (stat.isExpense) {
                 int currExpense = stat.unitPrice * stat.quantity;
                 if (currExpense > maxExpense) {
@@ -71,7 +76,6 @@ public class MonthlyReport {
                 }
             }
         }
-        System.out.println("Самые большие траты были по категории: " + maxExpenseItem + " .Потрачено : " + maxExpense);
-        System.out.println();
+        System.out.println("Самые большие траты были по категории: " + maxExpenseItem + " .Потрачено : " + maxExpense + "\n");
     }
 }
