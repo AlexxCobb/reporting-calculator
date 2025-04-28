@@ -6,7 +6,6 @@ public class YearlyReport {
     FileReader fileReader = new FileReader();
     int year = 2021;
 
-
     ArrayList<Transaction> yearTransaction = new ArrayList<>();
     HashMap<String, Integer> profitForMonths = new HashMap<>();
 
@@ -27,7 +26,6 @@ public class YearlyReport {
 
 
     Integer allYearIncome() {
-
         int sum = 0;
         for (Transaction transaction : yearTransaction) {
             if (!transaction.isExpense) {
@@ -38,7 +36,6 @@ public class YearlyReport {
     }
 
     Integer allYearExpense() {
-
         int sum = 0;
         for (Transaction transaction : yearTransaction) {
             if (transaction.isExpense) {
@@ -72,7 +69,7 @@ public class YearlyReport {
         return sum / count;
     }
 
-    HashMap<String, Integer> profitToMonthOfYear() { // void
+    HashMap<String, Integer> profitToMonthOfYear() {
         int profit = 0;
         int expense = 0;
         int income = 0;
